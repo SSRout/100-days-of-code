@@ -1,86 +1,82 @@
-#Coffe Machine
-MENU = {
-    "espresso": {
-        "ingredients": {
-            "water": 50,
-            "coffee": 18,
-        },
-        "cost": 5,
-    },
-    "latte": {
-        "ingredients": {
-            "water": 200,
-            "milk": 150,
-            "coffee": 24,
-        },
-        "cost": 10,
-    },
-    "cappuccino": {
-        "ingredients": {
-            "water": 250,
-            "milk": 100,
-            "coffee": 24,
-        },
-        "cost": 15,
-    }
-}
+from game_data import data
+import random
+from art import logo, vs
 
-profit=0
 
-resources={
-    "water":300,
-    "milk":200,
-    "coffee":100
-}
+def get_random_account():
+  """Get data from random account"""
+  return random.choice(data)
 
-def is_resource_sufficient(order_ingredients):
-    """Return true or false"""
-    for item in order_ingredients:
-        if order_ingredients[item]>=resources[item]:
-            print(f"Sorry not Enough {item} to Make Coffee.")
-            return False
-    return True
+def format_data(account):
+  """Format account into printable format: name, description and country"""
+  name = account["name"]
+  description = account["description"]
+  country = account["country"]
+  # print(f'{name}: {account["follower_count"]}')
+  return f"{name}, a {description}, from {country}"
 
-def process_coins():
-    """Return Calculated Coins"""
-    print("Please inseet Coins")
-    total=int(input("Insert coins "))
-    return total
+def check_answer(guess, a_followers, b_followers):
+  """Checks followers against user's guess 
+  and returns True if they got it right.
+  Or False if they got it wrong.""" 
+  if a_followers > b_followers:
+    return guess == "a"
+  else:
+    return guess == "b"
 
-def is_transaction_success(money_received,drink_cost):
-    """Return true when payament accepted or false"""
-    if money_received>=drink_cost:
-        chnage=round(money_received-drink_cost,2)
-        print(F"Extra changes here ₹{chnage}")
-        global profit
-        profit+=drink_cost
-        return True
+
+def game():
+  print(logo)
+  score = 0
+  game_should_continue = True
+  account_a = get_random_account()
+  account_b = get_random_account()
+
+  while game_should_continue:
+    account_a = account_b
+    account_b = get_random_account()
+
+    while account_a == account_b:
+      account_b = get_random_account()
+
+    print(f"Compare A: {format_data(account_a)}.")
+    print(vs)
+    print(f"Against B: {format_data(account_b)}.")
+    
+    guess = input("Who has more followers? Type 'A' or 'B': ").lower()
+    a_follower_count = account_a["follower_count"]
+    b_follower_count = account_b["follower_count"]
+    is_correct = check_answer(guess, a_follower_count, b_follower_count)
+
+    print(logo)
+    if is_correct:
+      score += 1
+      print(f"You're right! Current score: {score}.")
     else:
-        print("Not Enough money for coffee")
-        return False
+      game_should_continue = False
+      print(f"Sorry, that's wrong. Final score: {score}")
 
-def make_coffee(drink_name,order_ingreints):
-    """deduct required ingredients"""
-    for item in order_ingreints:
-        resources[item]-=order_ingreints[item]
-    print("Brewd Coffee")
+game()
 
 
+# Generate a random account from the game data.
 
+# Format account data into printable format.
 
-is_on=True
-while is_on:
-    choice=input("What would you like?(espresso/latte/cappuccino)")
-    if choice=="off":
-        is_on=False
-    elif choice=="report":
-        print(f"Water : {resources['water']}l")
-        print(f"Milk: {resources['milk']}l")
-        print(f"coffee : {resources['coffee']}g")
-        print(f"Money : ₹{profit}")
-    else:
-        drink=MENU[choice]
-        if is_resource_sufficient(drink["ingredients"]):
-            payement=process_coins()
-            if is_transaction_success(payement,drink["cost"]):
-                make_coffee(choice,drink["ingredients"])
+# Ask user for a guess.
+
+# Check if user is correct.
+## Get follower count.
+## If Statement
+
+# Feedback.
+
+# Score Keeping.
+
+# Make game repeatable.
+
+# Make B become the next A.
+
+# Add art.
+
+# Clear screen between rounds.
