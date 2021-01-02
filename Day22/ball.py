@@ -5,7 +5,7 @@ class Ball(Turtle):
 
     def __init__(self):
         super().__init__()
-        self.color("white")
+        self.color("red")
         self.shape("circle")
         self.penup()
         self.x_move = 3
@@ -22,7 +22,7 @@ class Ball(Turtle):
 
     def bounce_x(self):
         self.x_move *= -1
-        self.move_speed *= 0.9
+        self.move_speed *= 0.1
 
     def reset_position(self):
         self.goto(0, 0)
