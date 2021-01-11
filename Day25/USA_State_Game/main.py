@@ -10,10 +10,13 @@ turtle.shape(image)
 data=pandas.read_csv("Day25/USA_State_Game/50_states.csv")
 all_states=data.state.tolist()
 guess_state=[]
-while len(guess_state)<3:
+while len(guess_state)<len(all_states):
     answer_state=screen.textinput(title=f"{len(guess_state)}/50 Corrected",prompt="Sate Name?").title()
-    guess_state.append(answer_state)
+    if answer_state is "exit":
+        break
+    
     if answer_state in all_states:
+        guess_state.append(answer_state)
         t=turtle.Turtle()
         t.hideturtle()
         t.penup()
