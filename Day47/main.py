@@ -1,5 +1,5 @@
 import requests
-import lxml
+# import lxml
 import smtplib
 from bs4 import BeautifulSoup
 
@@ -16,9 +16,9 @@ soup = BeautifulSoup(response.content, "html.parser")
 
 price = soup.find("span",class_="a-size-base a-color-price").get_text()
 print(price)
-# price_without_currency = price.split("₹")[1]
-# price_as_float = float(price_without_currency)
-# print(price_as_float)
+price_without_currency = price.split("₹")[1]
+price_as_float = float(price_without_currency)
+print(price_as_float)
 
 # title = soup.find(id="productTitle").get_text().strip()
 # print(title)
